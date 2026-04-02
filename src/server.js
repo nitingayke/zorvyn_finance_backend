@@ -3,6 +3,7 @@ import cors from "cors";
 import { ENV } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 import routes from "./routes/index.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1", routes);
+
+app.use(errorMiddleware)
 
 const startServer = async () => {
   await connectDB();
