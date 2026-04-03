@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    
+
     email: {
       type: String,
       required: true,
@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+userSchema.set("toJSON", {
+  transform: function (doc, ret) {
+    delete ret.password;
+    delete ret.__v;
+    return ret;
+  },
+});
 
 const User = mongoose.model("User", userSchema);
 
