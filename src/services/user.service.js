@@ -54,9 +54,13 @@ export const updateUserService = async (id, data, currentUser) => {
   return user;
 };
 
-export const deleteUserService = async (id) => {
+export const deleteUserService = async (id, currentUser) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new ApiError(400, "Invalid user ID");
+  }
+
+  if (id === currentUser.id.toString()) {
+    throw new ApiError(400, "Admin cannot deactivate themselves");
   }
 
   const user = await User.findById(id);

@@ -34,7 +34,7 @@ export const updateUserController = async (req, res) => {
 };
 
 export const deleteUserController = async (req, res) => {
-  await deleteUserService(req.params.id);
+  await deleteUserService(req.params.id, req.user);
 
   return apiResponse(res, {
     message: "User deactivated successfully",
