@@ -5,6 +5,7 @@ const recordSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
+      min: 0,
     },
 
     type: {
@@ -16,6 +17,7 @@ const recordSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      trim: true,
     },
 
     date: {
@@ -23,13 +25,15 @@ const recordSchema = new mongoose.Schema(
       required: true,
     },
 
-    note: {
+    notes: {
       type: String,
+      trim: true,
     },
 
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      trim: true,
     },
   },
   { timestamps: true }

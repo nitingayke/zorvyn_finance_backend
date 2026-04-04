@@ -22,7 +22,11 @@ export const createUserService = async ({
   if (usersCount === 0) {
     role = "ADMIN";
   } else {
-     if (currentUser?.role !== "ADMIN") {
+    if (!currentUser) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    if (currentUser?.role !== "ADMIN") {
       throw new ApiError(403, "Only admin can create users");
     }
 
@@ -47,14 +51,19 @@ export const createUserService = async ({
 };
 
 export const loginService = async ({ email, password }) => {
+
+  if (!email) {
+    throw new ApiError(400, "Valid email is required");
+  }
+
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new ApiError(400, "Invalid email");
+    throw new ApiError(400, "User not found.");
   }
 
-  if(!password) {
-    throw new ApiError(400, "Password required")
+  if (!password) {
+    throw new ApiError(400, "Password required");
   }
 
   if (user.status !== "ACTIVE") {

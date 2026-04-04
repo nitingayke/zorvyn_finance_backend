@@ -1,19 +1,53 @@
 import express from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { allowRoles } from "../middlewares/role.middleware.js";
+import {
+  createRecordController,
+  deleteRecordController,
+  getRecordController,
+  getRecordsController,
+  updateRecordController,
+} from "../controllers/record.controller.js";
 
 const router = express.Router();
 
-router.post("/", asyncHandler({  })); // create new record
+router.post(
+  "/",
+  authMiddleware,
+  allowRoles("ADMIN"),
+  asyncHandler(createRecordController),
+);
 
-router.get("/", asyncHandler({  })); // get all records (with filters)
-// GET /api/v1/records?type=INCOME
-// GET /api/v1/records?category=Food
-// GET /api/v1/records?startDate=2026-01-01&endDate=2026-01-31
+// type=INCOME
+// category=Food
+// startDate=2026-01-01&endDate=2026-01-31
+router.get(
+  "/",
+  authMiddleware,
+  allowRoles("ADMIN", "ANALYST"),
+  asyncHandler(getRecordsController),
+);
 
-router.get("/:id", asyncHandler({  })); // Get single record
+router.get(
+  "/:id",
+  authMiddleware,
+  allowRoles("ADMIN", "ANALYST"),
+  asyncHandler(getRecordController),
+);
 
-router.patch("/:id", asyncHandler({  })); // Get single record
+router.patch(
+  "/:id",
+  authMiddleware,
+  allowRoles("ADMIN"),
+  asyncHandler(updateRecordController),
+);
 
-router.delete("/:id", asyncHandler({  })); // Update record
+router.delete(
+  "/:id",
+  authMiddleware,
+  allowRoles("ADMIN"),
+  asyncHandler(deleteRecordController),
+);
 
 export default router;

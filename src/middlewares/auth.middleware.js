@@ -9,6 +9,10 @@ export const authMiddleware = async (req, res, next) => {
     return next();
   }
 
+  if (!authHeader.startsWith("Bearer ")) {
+    throw new ApiError(401, "Invalid token");
+  }
+
   const token = authHeader.split(" ")[1];
 
   try {

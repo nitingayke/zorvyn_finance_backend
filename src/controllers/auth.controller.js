@@ -1,6 +1,6 @@
 import { apiResponse } from "../utils/apiResponse.js";
 import { createUserService, loginService } from "../services/auth.service.js";
-import { validateCreateUser } from "../validators/user.validator.js";
+import { validateCreateUser } from "../validators/auth.validator.js";
 import { generateToken } from "../utils/jwt.js";
 
 export const createUserController = async (req, res) => {
