@@ -1,4 +1,4 @@
-# 💰 Finance Data Processing & Access Control Backend
+# Finance Data Processing & Access Control Backend
 
 ## Overview
 
