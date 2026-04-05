@@ -38,7 +38,8 @@ export const createUserService = async ({
     }
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const passwordStr = String(password);
+  const hashedPassword = await bcrypt.hash(passwordStr, 10);
 
   const user = await User.create({
     name,
@@ -62,7 +63,8 @@ export const loginService = async ({ email, password }) => {
     throw new ApiError(400, "User not found.");
   }
 
-  if (!password) {
+  const passwordStr = String(password);
+  if (!passwordStr) {
     throw new ApiError(400, "Password required");
   }
 
@@ -70,7 +72,7 @@ export const loginService = async ({ email, password }) => {
     throw new ApiError(403, "User is inactive");
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(passwordStr, user.password);
 
   if (!isMatch) {
     throw new ApiError(400, "Wrong password");

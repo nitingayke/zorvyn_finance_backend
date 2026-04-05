@@ -5,7 +5,7 @@ import { createUserController, loginController } from "../controllers/auth.contr
 
 const router = express.Router();
 
-router.post("/new", authMiddleware, asyncHandler(createUserController));
+router.post("/signup", authMiddleware, asyncHandler(createUserController));
 
 router.post("/login", asyncHandler(loginController));
 
