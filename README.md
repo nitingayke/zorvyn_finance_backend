@@ -18,7 +18,7 @@ It demonstrates:
 This backend system is designed to manage users, roles, and financial records. Here is how it works:
 
 1. **First User Signup**
-   - If the database is empty, the first user who signs up will automatically become **ADMIN**.
+   - If the database is empty, the first user who signs up will automatically become **ADMIN**.         `For evaluation purposes, a default ADMIN user is already created (see credentials below).`
    - This ADMIN user has full access to create financial records, view analytics, and manage other users.
 
 2. **Creating Other Users**
@@ -41,9 +41,9 @@ This backend system is designed to manage users, roles, and financial records. H
    - The backend uses MongoDB for persistence.
    - Initially, all collections are empty. The first signup triggers the creation of the ADMIN user automatically.
   
-   ---
+---
 
-### First Admin Credentials (for Assignment Evaluation)
+## First Admin Credentials (for Assignment Evaluation)
 
 To explore the backend, use the first admin credentials:
 
@@ -51,6 +51,58 @@ To explore the backend, use the first admin credentials:
 - Password: `Admin@1234`
 
 This user has full access (ADMIN) and can create other users, manage financial records, and view analytics.
+
+---
+
+## Testing Guide / How to Use the API
+
+### Step 1: Login as Admin
+```
+POST /api/v1/auth/login
+Body: {
+  "email": "admin@zorvyn.com",
+  "password": "Admin@1234"
+}
+```
+Save the token for future requests.
+
+### Step 2: Create New Users (Admin Only)
+```
+POST /api/v1/auth/signup
+Headers: Authorization: Bearer <token>
+Body: {
+  "name": "Jane Analyst",
+  "email": "analyst@zorvyn.com",
+  "password": "Password@123",
+  "role": "ANALYST"
+}
+```
+Repeat for VIEWER or another ADMIN.
+
+### Step 3: Create / Manage Financial Records (Admin Only)
+```
+POST /api/v1/records
+Headers: Authorization: Bearer <token>
+Body: {
+  "amount": 50000,
+  "type": "INCOME",
+  "category": "Salary",
+  "date": "2026-04-01",
+  "notes": "Monthly salary"
+}
+```
+- Get all records: GET /api/v1/records
+- Update record: PATCH /api/v1/records/:id
+- Delete record: DELETE /api/v1/records/:id
+
+### Step 4: Dashboard Access
+```
+GET /api/v1/dashboard/summary
+GET /api/v1/dashboard/category
+GET /api/v1/dashboard/recent?limit=5
+GET /api/v1/dashboard/trends
+Headers: Authorization: Bearer <token>
+```
 
 ---
 
