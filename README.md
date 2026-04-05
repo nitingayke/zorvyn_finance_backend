@@ -13,6 +13,47 @@ It demonstrates:
 
 ---
 
+## Workflow & First-Time Setup
+
+This backend system is designed to manage users, roles, and financial records. Here is how it works:
+
+1. **First User Signup**
+   - If the database is empty, the first user who signs up will automatically become **ADMIN**.
+   - This ADMIN user has full access to create financial records, view analytics, and manage other users.
+
+2. **Creating Other Users**
+   - After the first ADMIN is created, new users must be created by an ADMIN.
+   - ADMIN can assign roles:
+     - **ANALYST** → Can view records and analytics
+     - **VIEWER** → Can only view their own records
+
+3. **Authentication**
+   - Users login via `POST /api/v1/auth/login` to receive a **JWT token**.
+   - Include this token in the `Authorization` header (`Bearer <token>`) for protected API requests.
+
+4. **Access Control**
+   - Role-based access is enforced for all endpoints.
+   - VIEWER → Only own data
+   - ANALYST → Read-only + analytics
+   - ADMIN → Full access (CRUD + analytics)
+
+5. **Database**
+   - The backend uses MongoDB for persistence.
+   - Initially, all collections are empty. The first signup triggers the creation of the ADMIN user automatically.
+  
+   ---
+
+### First Admin Credentials (for Assignment Evaluation)
+
+To explore the backend, use the first admin credentials:
+
+- Email: `admin@zorvyn.com`
+- Password: `Admin@1234`
+
+This user has full access (ADMIN) and can create other users, manage financial records, and view analytics.
+
+---
+
 ## Features
 
 ### 1. User & Role Management
